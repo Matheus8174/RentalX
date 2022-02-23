@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Matheus Santos Araujo da Silva <souzamatheus8174@gmail.com>",
-  "license": "MiT"
+  "license": "MiT",
+  "devDependencies": {
+    "husky": "^7.0.4"
+  }
 }

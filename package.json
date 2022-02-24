@@ -10,6 +10,7 @@
   "author": "Matheus Santos Araujo da Silva <souzamatheus8174@gmail.com>",
   "license": "MiT",
   "devDependencies": {
-    "husky": "^7.0.4"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.4"
   }
 }

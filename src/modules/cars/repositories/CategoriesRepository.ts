@@ -5,7 +5,21 @@ import ICategoriesRepository, {
 } from './interfaces/ICategoriesRepository';
 
 class CategoriesRepository implements ICategoriesRepository {
-  private readonly categories: Category[] = [];
+  private readonly categories: Category[];
+
+  private static SINGLETON_INSTANCE: CategoriesRepository;
+
+  private constructor() {
+    this.categories = [];
+  }
+
+  public static getInstance() {
+    if (!CategoriesRepository.SINGLETON_INSTANCE) {
+      CategoriesRepository.SINGLETON_INSTANCE = new CategoriesRepository();
+    }
+
+    return CategoriesRepository.SINGLETON_INSTANCE;
+  }
 
   public create({ name, description }: ICreateCategoryDTO) {
     const category = new Category(name, description, new Date());

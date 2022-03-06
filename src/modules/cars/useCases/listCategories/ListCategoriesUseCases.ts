@@ -1,7 +1,7 @@
-import CategoriesRepository from '../../repositories/CategoriesRepository';
+import ICategoriesRepository from '../../repositories/interfaces/ICategoriesRepository';
 
 class ListCategoriesUseCases {
-  constructor(private readonly categoriesRepository: CategoriesRepository) {}
+  constructor(private readonly categoriesRepository: ICategoriesRepository) {}
 
   public execute() {
     const allCategories = this.categoriesRepository.list();

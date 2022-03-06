@@ -10,4 +10,8 @@ const createCategoryController = new CreateCategoryController(
   createCategoryUseCase
 );
 
+createCategoryController.execute = createCategoryController.execute.bind(
+  createCategoryController
+);
+
 export default createCategoryController;

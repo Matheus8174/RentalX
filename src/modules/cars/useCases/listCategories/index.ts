@@ -10,4 +10,8 @@ const listCategoriesController = new ListCategoriesController(
   listCategoriesUseCases
 );
 
+listCategoriesController.execute = listCategoriesController.execute.bind(
+  listCategoriesController
+);
+
 export default listCategoriesController;

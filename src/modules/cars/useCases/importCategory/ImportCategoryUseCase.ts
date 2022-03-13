@@ -1,4 +1,4 @@
-import { Transform } from 'stream';
+import { Transform, pipeline } from 'stream';
 import csvParser from 'csv-parser';
 
 import ICategoriesRepository from '../../repositories/interfaces/ICategoriesRepository';
@@ -23,20 +23,25 @@ class ImportCategoryUseCase {
 
       const categories: IImportCategory[] = [];
 
-      fileStream.pipe(parseFile);
+      const handleData = new Transform({
+        objectMode: true,
+        transform(chunk, _, done) {
+          const [name, description] = Object.values(chunk);
 
-      parseFile.on('data', (line) => {
-        const [name, description] = Object.values(line);
+          categories.push({
+            name,
+            description
+          });
 
-        categories.push({
-          name,
-          description
-        });
+          done(null);
+        }
       });
 
-      parseFile.once('end', () => resolve(categories));
+      pipeline(fileStream, parseFile, handleData, (error) => {
+        if (error) reject(error.message);
 
-      parseFile.once('error', (error) => reject(error.message));
+        resolve(categories);
+      });
     });
   }
 

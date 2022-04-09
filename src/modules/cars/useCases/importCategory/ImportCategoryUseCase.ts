@@ -1,20 +1,26 @@
 import { Transform, pipeline } from 'stream';
 import csvParser from 'csv-parser';
+import { inject, injectable } from 'tsyringe';
 
-import ICategoriesRepository from '../../repositories/interfaces/ICategoriesRepository';
+import ICategoriesRepository from '@modules/cars/repositories/interfaces/ICategoriesRepository';
+import AppError from '@errors/AppError';
 
 interface IImportCategory {
   name: string;
   description: string;
 }
 
+@injectable()
 class ImportCategoryUseCase {
-  constructor(private readonly categoriesRepository: ICategoriesRepository) {}
+  constructor(
+    @inject('CategoriesRepository')
+    private readonly categoriesRepository: ICategoriesRepository
+  ) {}
 
-  public async loadCategories(
+  private async loadCategories(
     file: Express.Multer.File | undefined
   ): Promise<IImportCategory[]> {
-    if (!file) throw new Error('file is missing');
+    if (!file) throw new AppError('file is missing');
 
     return new Promise((resolve, reject) => {
       const fileStream = Transform.from(file.buffer);
@@ -38,7 +44,7 @@ class ImportCategoryUseCase {
       });
 
       pipeline(fileStream, parseFile, handleData, (error) => {
-        if (error) reject(error.message);
+        if (error) reject(error);
 
         resolve(categories);
       });
@@ -46,18 +52,22 @@ class ImportCategoryUseCase {
   }
 
   public async execute(file: Express.Multer.File | undefined) {
-    const categories = await this.loadCategories(file);
+    try {
+      const categories = await this.loadCategories(file);
 
-    categories.forEach(({ name, description }) => {
-      const existCategory = this.categoriesRepository.findByName(name);
+      categories.forEach(async ({ name, description }) => {
+        const existCategory = await this.categoriesRepository.findByName(name);
 
-      if (!existCategory) {
-        this.categoriesRepository.create({
-          name,
-          description
-        });
-      }
-    });
+        if (!existCategory) {
+          await this.categoriesRepository.create({
+            name,
+            description
+          });
+        }
+      });
+    } catch (error) {
+      throw new AppError((error as Error).message);
+    }
   }
 }
 

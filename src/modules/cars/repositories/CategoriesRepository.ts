@@ -1,44 +1,36 @@
-import Category from '../model/Category';
+import { getRepository, Repository } from 'typeorm';
+
+import Category from '../entities/Category';
 
 import ICategoriesRepository, {
   ICreateCategoryDTO
 } from './interfaces/ICategoriesRepository';
 
 class CategoriesRepository implements ICategoriesRepository {
-  private readonly categories: Category[];
+  private repository: Repository<Category>;
 
-  private static SINGLETON_INSTANCE: CategoriesRepository;
-
-  private constructor() {
-    this.categories = [];
+  constructor() {
+    this.repository = getRepository(Category);
   }
 
-  public static getInstance() {
-    if (!CategoriesRepository.SINGLETON_INSTANCE) {
-      CategoriesRepository.SINGLETON_INSTANCE = new CategoriesRepository();
-    }
+  public async create({ name, description }: ICreateCategoryDTO) {
+    const newCategory = this.repository.create({ name, description });
 
-    return CategoriesRepository.SINGLETON_INSTANCE;
+    await this.repository.save(newCategory);
   }
 
-  public create({ name, description }: ICreateCategoryDTO) {
-    const category = new Category(name, description, new Date());
-
-    this.categories.push(category);
-  }
-
-  public list() {
-    const allCategories = this.categories;
+  public async list() {
+    const allCategories = await this.repository.find();
 
     return allCategories;
   }
 
-  public findByName(categoryName: string) {
-    const isThisCategoryNameExists = this.categories.find(
-      (category) => category.name === categoryName
-    );
+  public async findByName(categoryName: string) {
+    const categoryFinded = await this.repository.findOne({
+      where: { name: categoryName }
+    });
 
-    return isThisCategoryNameExists;
+    return categoryFinded;
   }
 }
 

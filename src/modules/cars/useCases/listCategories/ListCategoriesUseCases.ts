@@ -1,10 +1,16 @@
-import ICategoriesRepository from '../../repositories/interfaces/ICategoriesRepository';
+import { inject, injectable } from 'tsyringe';
 
+import ICategoriesRepository from '@modules/cars/repositories/interfaces/ICategoriesRepository';
+
+@injectable()
 class ListCategoriesUseCases {
-  constructor(private readonly categoriesRepository: ICategoriesRepository) {}
+  constructor(
+    @inject('CategoriesRepository')
+    private readonly categoriesRepository: ICategoriesRepository
+  ) {}
 
-  public execute() {
-    const allCategories = this.categoriesRepository.list();
+  public async execute() {
+    const allCategories = await this.categoriesRepository.list();
 
     return allCategories;
   }

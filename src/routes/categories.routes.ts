@@ -1,32 +1,20 @@
-import multer, { memoryStorage } from 'multer';
 import { Router } from 'express';
 
-import createCategoryController from '../modules/cars/useCases/createCategory';
-import listCategoriesController from '../modules/cars/useCases/listCategories';
-import importCategoryController from '../modules/cars/useCases/importCategory';
+import Upload from '@config/upload';
+import uploadCategories from '@config/upload/categories';
+
+import createCategoryController from '@modules/cars/useCases/createCategory';
+import listCategoriesController from '@modules/cars/useCases/listCategories';
+import importCategoryController from '@modules/cars/useCases/importCategory';
+
+const upload = new Upload(uploadCategories, 'file').execute();
 
 const categoriesRoutes = Router();
 
-const upload = multer({
-  fileFilter: (request, file, callback) => {
-    const [extension, ,] = file.originalname.split('.').reverse();
+categoriesRoutes.post('/', createCategoryController);
 
-    if (extension !== 'csv') callback(new Error('Just csv files are allowed'));
+categoriesRoutes.get('/', listCategoriesController);
 
-    callback(null, true);
-  },
-  storage: memoryStorage(),
-  dest: './tmp'
-});
-
-categoriesRoutes.post('/', createCategoryController.execute);
-
-categoriesRoutes.get('/', listCategoriesController.execute);
-
-categoriesRoutes.post(
-  '/import',
-  upload.single('file'),
-  importCategoryController.execute
-);
+categoriesRoutes.post('/import', upload, importCategoryController);
 
 export default categoriesRoutes;

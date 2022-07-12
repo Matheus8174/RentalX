@@ -25,7 +25,9 @@
   },
   "exclude": ["./dist"],
   "include": [
+    "./tests",
     "./src",
+    "./jest.setup.ts",
     "./ormconfig.ts"
   ]
 }

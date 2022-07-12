@@ -1,18 +1,16 @@
 import { createConnection, getConnection, getRepository } from 'typeorm';
 
+import baseConfigConnection from '@shared/infra/typeorm/baseConfigConnection';
+
 beforeAll(async () => {
   await createConnection({
-    type: 'sqlite',
+    ...baseConfigConnection,
+
+    type: 'better-sqlite3',
     database: ':memory:',
 
     dropSchema: true,
-    migrationsRun: true,
-
-    entities: ['./src/modules/**/entities/*.ts'],
-    migrations: ['./src/database/migrations/*.ts'],
-    cli: {
-      migrationsDir: './src/database/migrations'
-    }
+    migrationsRun: true
   });
 });
 

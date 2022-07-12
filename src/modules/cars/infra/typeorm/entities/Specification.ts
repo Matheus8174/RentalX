@@ -1,18 +1,18 @@
+import { randomUUID } from 'crypto';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { randomUUID as uuidV4 } from 'crypto';
 
 @Entity('specifications')
 class Specification {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column()
   name: string;
 
   @Column()
@@ -26,7 +26,7 @@ class Specification {
 
   constructor() {
     if (!this.id) {
-      this.id = uuidV4();
+      this.id = randomUUID();
     }
   }
 }

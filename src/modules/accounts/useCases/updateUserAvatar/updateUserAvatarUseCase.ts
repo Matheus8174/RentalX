@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 import { inject, injectable } from 'tsyringe';
 import { Readable } from 'stream';
 
-import AppError from '@errors/AppError';
+import AppError from '@shared/errors/AppError';
 import IUsersRepository from '@modules/accounts/repositories/interfaces/IUsersRepository';
 
 type UploadResponse = {

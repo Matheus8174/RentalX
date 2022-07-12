@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   database:
-    image: postgres
+    image: postgres:11-alpine
     container_name: rentx_database
     restart: always
     expose:
@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - './.env.dev'
+      - './.env'
     volumes:
       - pgdata:/data/postgres
     network_mode: host

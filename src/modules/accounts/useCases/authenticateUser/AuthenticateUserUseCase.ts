@@ -3,7 +3,7 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 import IUserRepository from '@modules/accounts/repositories/interfaces/IUsersRepository';
-import AppError from '@errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 type Response = {
   user: {

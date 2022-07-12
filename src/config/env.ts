@@ -3,12 +3,9 @@ import { config } from 'dotenv';
 
 const basePath = resolve(__dirname, '..', '..');
 
-const handleEnv = {
-  test: join(basePath, '.env.test'),
-  development: join(basePath, '.env.dev'),
-  production: join(basePath, '.env.prod')
-};
+const whichEnvFileToUse =
+  process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
 
 config({
-  path: handleEnv[process.env.NODE_ENV]
+  path: join(basePath, whichEnvFileToUse)
 });

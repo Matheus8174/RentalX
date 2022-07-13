@@ -1,7 +1,7 @@
 import AuthenticateUserUseCase from './AuthenticateUserUseCase';
 import CreateUserUseCase from '../createUser/CreateUserUseCase';
-import UsersRepository from '@modules/accounts/repositories/UsersRepository';
-import AppError from '@errors/AppError';
+import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import AppError from '@shared/errors/AppError';
 
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let createUserUseCase: CreateUserUseCase;

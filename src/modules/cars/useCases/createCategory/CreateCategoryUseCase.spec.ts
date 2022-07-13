@@ -1,6 +1,6 @@
 import CreateCategoryUseCase from './CreateCategoryUseCase';
-import CategoriesRepository from '@modules/cars/repositories/CategoriesRepository';
-import AppError from '@errors/AppError';
+import CategoriesRepository from '@modules/cars/infra/typeorm/repositories/CategoriesRepository';
+import AppError from '@shared/errors/AppError';
 
 let createCategoryUseCase: CreateCategoryUseCase;
 

@@ -1,8 +1,8 @@
 import { compare } from 'bcrypt';
 
 import CreateUserUseCase from './CreateUserUseCase';
-import UsersRepository from '@modules/accounts/repositories/UsersRepository';
-import AppError from '@errors/AppError';
+import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import AppError from '@shared/errors/AppError';
 
 let createUserUseCase: CreateUserUseCase;
 

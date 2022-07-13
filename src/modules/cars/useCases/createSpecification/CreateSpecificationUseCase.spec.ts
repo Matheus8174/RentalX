@@ -1,6 +1,6 @@
 import CreateSpecificationUseCase from './CreateSpecificationUseCase';
-import SpecificationsRepository from '../../repositories/SpecificationsRepository';
-import AppError from '@errors/AppError';
+import SpecificationsRepository from '../../infra/typeorm/repositories/SpecificationsRepository';
+import AppError from '@shared/errors/AppError';
 
 let createSpecificationUseCase: CreateSpecificationUseCase;
 

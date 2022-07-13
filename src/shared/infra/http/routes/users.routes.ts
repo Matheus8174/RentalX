@@ -7,7 +7,7 @@ import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import createUserController from '@modules/accounts/useCases/createUser';
 import updateUserAvatarController from '@modules/accounts/useCases/updateUserAvatar';
 
-const upload = new Upload(uploadAvatar, 'avatar').execute();
+const upload = new Upload(uploadAvatar, 'avatar', 'single').execute();
 
 const usersRoutes = Router();
 

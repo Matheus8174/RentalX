@@ -1,5 +1,5 @@
 import ListCategoriesUseCases from './ListCategoriesUseCases';
-import CategoriesRepository from '../../repositories/CategoriesRepository';
+import CategoriesRepository from '../../infra/typeorm/repositories/CategoriesRepository';
 
 let listCategoriesUseCases: ListCategoriesUseCases;
 

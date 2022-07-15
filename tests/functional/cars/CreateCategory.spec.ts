@@ -1,4 +1,4 @@
-describe('#CreateCategory', () => {
+describe('#POST /categories', () => {
   it('should be able to create a new category', async () => {
     const response = await global.testRequest
       .post('/api/v1/categories')

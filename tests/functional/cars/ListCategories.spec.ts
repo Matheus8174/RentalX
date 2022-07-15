@@ -1,6 +1,6 @@
 import CategoriesRepository from '@modules/cars/infra/typeorm/repositories/CategoriesRepository';
 
-describe('#ListCategories', () => {
+describe('#GET /categories', () => {
   it('should list all categories stored', async () => {
     const categoriesRepository = new CategoriesRepository();
 

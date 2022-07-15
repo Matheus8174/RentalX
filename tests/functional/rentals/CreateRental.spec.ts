@@ -10,7 +10,7 @@ let car_id: string;
 
 let user_id: string;
 
-describe('#CreateRentals', () => {
+describe('#POST /rentals', () => {
   beforeAll(async () => {
     const categoriesRepository = new CategoriesRepository();
 

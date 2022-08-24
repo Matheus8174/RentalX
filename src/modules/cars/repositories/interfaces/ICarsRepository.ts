@@ -16,7 +16,8 @@ interface ICarsRepository {
   create(data: ICreateCarDTO): Promise<Car>;
   findByLicensePlate(licensePlate: string): Promise<Car | undefined>;
   findById(carId: string): Promise<Car | undefined>;
-  save(data: ICreateCarDTO): Promise<any>;
+  save(data: ICreateCarDTO): Promise<void>;
+  updateAvailable(carId: string, available: boolean): Promise<void>;
 }
 
 export default ICarsRepository;

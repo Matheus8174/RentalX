@@ -14,7 +14,7 @@ describe('#GET /categories', () => {
     const allCategories = await global.testRequest
       .get('/api/v1/categories')
       .set({
-        Authorization: `Bearer ${global.session.token}`
+        Authorization: `Bearer ${global.session.refreshToken}`
       });
 
     expect(allCategories.body).toEqual(

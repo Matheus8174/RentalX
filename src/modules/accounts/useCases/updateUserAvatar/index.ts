@@ -1,4 +1,4 @@
-import UpdateUserAvatarController from './updateUserAvatarController';
+import UpdateUserAvatarController from './UpdateUserAvatarController';
 
 const updateUserAvatarController = new UpdateUserAvatarController();
 

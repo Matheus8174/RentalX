@@ -3,6 +3,9 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 import IUserRepository from '@modules/accounts/repositories/interfaces/IUsersRepository';
+import IUsersTokensRepository from '@modules/accounts/repositories/interfaces/IUsersTokensRepository';
+import IDateProvider from '@shared/container/providers/DateProvider/interfaces/IDateProvider';
+
 import AppError from '@shared/errors/AppError';
 
 type Response = {
@@ -10,6 +13,7 @@ type Response = {
     name: string;
     email: string;
   };
+  refreshToken: string;
   token: string;
 };
 
@@ -22,11 +26,15 @@ type Request = {
 class AuthenticateUserUseCase {
   constructor(
     @inject('UserRepository')
-    private readonly UserRepository: IUserRepository
+    private readonly userRepository: IUserRepository,
+    @inject('UsersTokensRepository')
+    private readonly usersTokensRepository: IUsersTokensRepository,
+    @inject('DayjsDateProvider')
+    private readonly dateProvider: IDateProvider
   ) {}
 
   public async execute({ email, password }: Request): Promise<Response> {
-    const user = await this.UserRepository.findByEmail(email);
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) throw new AppError('email or password incorrect');
 
@@ -39,6 +47,23 @@ class AuthenticateUserUseCase {
       expiresIn: process.env.EXPIRES_IN
     });
 
+    const refreshToken = sign(
+      { userEmail: email },
+      process.env.SECRET_REFRESH_TOKEN,
+      {
+        subject: user.id,
+        expiresIn: process.env.EXPIRES_IN_REFRESH_TOKEN
+      }
+    );
+
+    await this.usersTokensRepository.create({
+      userId: user.id,
+      refreshToken,
+      expiresDate: this.dateProvider.addDays(
+        process.env.EXPIRES_REFRESH_TOKEN_DAYS
+      )
+    });
+
     const userInfo = {
       name: user.name,
       email: user.email
@@ -46,7 +71,8 @@ class AuthenticateUserUseCase {
 
     return {
       user: userInfo,
-      token
+      token,
+      refreshToken
     };
   }
 }

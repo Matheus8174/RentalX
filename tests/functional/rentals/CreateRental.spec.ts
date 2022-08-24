@@ -59,7 +59,7 @@ describe('#POST /rentals', () => {
       .post('/api/v1/rentals')
       .send(data)
       .set({
-        Authorization: `Bearer ${global.session.token}`
+        Authorization: `Bearer ${global.session.refreshToken}`
       });
 
     expect(status).toBe(201);

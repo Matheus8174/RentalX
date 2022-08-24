@@ -1,16 +1,27 @@
 import AuthenticateUserUseCase from './AuthenticateUserUseCase';
 import CreateUserUseCase from '../createUser/CreateUserUseCase';
+
 import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import UsersTokensRepository from '@modules/accounts/infra/typeorm/repositories/UsersTokensRepository';
+import DayjsDateProvider from '@shared/container/providers/DateProvider/DayjsDateProvider';
 import AppError from '@shared/errors/AppError';
 
+// let usersTokensRepository: UsersTokensRepository;
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let createUserUseCase: CreateUserUseCase;
 
 describe('#AuthenticateUser', () => {
   beforeAll(() => {
     const usersRepository = new UsersRepository();
+    const usersTokensRepository = new UsersTokensRepository();
+    const dayjsDateProvider = new DayjsDateProvider();
 
-    authenticateUserUseCase = new AuthenticateUserUseCase(usersRepository);
+    authenticateUserUseCase = new AuthenticateUserUseCase(
+      usersRepository,
+      usersTokensRepository,
+      dayjsDateProvider
+    );
+
     createUserUseCase = new CreateUserUseCase(usersRepository);
   });
 

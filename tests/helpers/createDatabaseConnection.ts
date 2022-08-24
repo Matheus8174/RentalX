@@ -6,7 +6,6 @@ async function createDatabaseConnection() {
   const connection = await createConnection({
     ...baseConfigConnection,
     type: 'postgres',
-    name: 'test',
     host: 'localhost',
     port: 5432,
     username: process.env.POSTGRES_USER,

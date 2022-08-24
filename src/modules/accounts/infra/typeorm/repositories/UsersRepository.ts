@@ -8,8 +8,10 @@ import ICreateUserDTO from '../../../dtos/ICreateUserDTO';
 class UsersRepository implements IUsersRepository {
   private repository: Repository<User>;
 
-  constructor() {
-    this.repository = getRepository(User);
+  constructor(repository?: Repository<User>) {
+    repository
+      ? (this.repository = repository)
+      : (this.repository = getRepository(User));
   }
 
   async create(data: ICreateUserDTO): Promise<void> {

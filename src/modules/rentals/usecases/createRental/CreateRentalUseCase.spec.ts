@@ -12,9 +12,7 @@ import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersR
 
 let createRentalUseCase: CreateRentalUseCase;
 
-let rentalsRepository: RentalsRepository;
-
-let dayjsDateProvider: DayjsDateProvider;
+let carsRepository: CarsRepository;
 
 let carId: string;
 
@@ -24,18 +22,19 @@ describe('#CreateRental', () => {
   const addTwoDays = dayjs().add(2, 'day').toDate();
 
   beforeEach(async () => {
-    rentalsRepository = new RentalsRepository();
+    const rentalsRepository = new RentalsRepository();
 
-    dayjsDateProvider = new DayjsDateProvider();
+    const dayjsDateProvider = new DayjsDateProvider();
+
+    carsRepository = new CarsRepository();
 
     createRentalUseCase = new CreateRentalUseCase(
       rentalsRepository,
-      dayjsDateProvider
+      dayjsDateProvider,
+      carsRepository
     );
 
     const categoriesRepository = new CategoriesRepository();
-
-    const carsRepository = new CarsRepository();
 
     const usersRepository = new UsersRepository();
 
@@ -80,7 +79,7 @@ describe('#CreateRental', () => {
     expect(rental).toHaveProperty('start_date');
   });
 
-  it("shloud not be able to create a new rental if there's another one open for the same user", async () => {
+  it("should not be able to create a new rental if there's another one open for the same user", async () => {
     const data: Omit<ICreateRentalDTO, 'carId'> = {
       userId,
       expectedReturnDate: addTwoDays
@@ -93,7 +92,7 @@ describe('#CreateRental', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it("shloud not be able to create a new rental if there's another one open for the same car", async () => {
+  it("should not be able to create a new rental if there's another one open for the same car", async () => {
     const data: Omit<ICreateRentalDTO, 'userId'> = {
       carId,
       expectedReturnDate: addTwoDays
@@ -114,5 +113,17 @@ describe('#CreateRental', () => {
     };
 
     expect(createRentalUseCase.execute(data)).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should be false the available filed at cars after the rental be created', async () => {
+    await createRentalUseCase.execute({
+      userId,
+      carId,
+      expectedReturnDate: addTwoDays
+    });
+
+    const car = await carsRepository.findById(carId);
+
+    expect(car?.available).toBe(false);
   });
 });

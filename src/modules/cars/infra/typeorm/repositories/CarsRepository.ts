@@ -58,6 +58,18 @@ class CarsRepository implements ICarsRepository {
 
     return carFinded;
   }
+
+  public async updateAvailable(carId: string, available: boolean) {
+    await this.repository
+      .createQueryBuilder()
+      .update({ available })
+      .where('id = :carId')
+      // esse :carId é um parametro que precisa ser definido no setParameters,
+      // pro typeorm saber o valor dele.
+      // Ele vai atualizar o car que tiver id = carId
+      .setParameters({ carId })
+      .execute();
+  }
 }
 
 export default CarsRepository;

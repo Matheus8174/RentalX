@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 
-import UpdateUserAvatarUseCase from './updateUserAvatarUseCase';
+import UpdateUserAvatarUseCase from './UpdateUserAvatarUseCase';
 
 class UpdateUserAvatarController {
   public async execute(request: Request, response: Response) {

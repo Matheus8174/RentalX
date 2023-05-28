@@ -12,9 +12,10 @@ async function createDatabaseConnection() {
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
 
-    migrationsRun: true,
     dropSchema: true
   });
+
+  await connection.runMigrations();
 
   return connection;
 }

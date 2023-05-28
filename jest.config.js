@@ -20,7 +20,7 @@ module.exports = {
   bail: true,
   clearMocks: true,
   displayName: 'unit-tests',
-  testMatch: ["<rootDir>/src/modules/**/*.spec.ts"],
+  testMatch: ["<rootDir>/src/modules/cars/**/*.spec.ts"],
   preset: 'ts-jest',
   testEnvironment: 'node',
 

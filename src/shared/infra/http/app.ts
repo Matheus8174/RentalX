@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import 'express-async-errors';
 
 import '@config/env';
-import '@shared/infra/typeorm/connection';
+// import '@shared/infra/typeorm/connection';
 import '@shared/container';
 
 import express from 'express';
@@ -13,6 +13,8 @@ import routes from './routes';
 import handleError from '@shared/infra/http/middlewares/handleError';
 
 const app = express();
+
+if (process.env.NODE_ENV !== 'test') import('@shared/infra/typeorm/connection');
 
 app.disable('x-powered-by');
 

@@ -1,3 +1,5 @@
 *.js
 dist
 build
+mocks
+*.md

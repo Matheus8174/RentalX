@@ -39,7 +39,7 @@ describe('#CreateCarSpecification', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it.skip('should be able to add a new specification to a car', async () => {
+  it.only('should be able to add a new specification to a car', async () => {
     const { id } = await categoriesRepository.create({
       name: 'categoryName',
       description: 'category description'

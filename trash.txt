@@ -1,0 +1,28 @@
+jest.mock('typeorm', () => ({
+  getRepository: jest.fn().mockReturnValue({
+    save: jest.fn().mockResolvedValue({})
+  }),
+  PrimaryGeneratedColumn: jest.fn(),
+  Column: jest.fn(),
+  CreateDateColumn: jest.fn(),
+  Entity: jest.fn()
+}));
+
+mocked(Entity).mockImplementation(() => jest.fn());
+mocked(Column).mockImplementation(() => jest.fn());
+mocked(PrimaryGeneratedColumn).mockImplementation(() => jest.fn());
+mocked(CreateDateColumn).mockImplementation(() => jest.fn());
+
+
+
+
+
+
+
+
+
+
+
+    typeorm.getRepository = jest.fn().mockReturnValue({
+      save: jest.fn().mockResolvedValue(User)
+    });

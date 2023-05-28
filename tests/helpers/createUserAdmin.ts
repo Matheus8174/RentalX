@@ -8,7 +8,7 @@ async function createUserAdmin(connection: Connection) {
 
   await connection.query(
     `INSERT INTO USERS(id, name, email, password, "isAdmin", created_at, driver_license)
-      values('${id}', 'admin', '${process.env.ADMIN_EMAIL}', '${password}', true, 'now()', 'xxxxxx')`
+        values('${id}', 'admin', '${process.env.ADMIN_EMAIL}', '${password}', true, 'now()', 'xxxxxx')`
   );
 }
 

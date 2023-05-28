@@ -18,11 +18,12 @@ async function ensureAuthenticated(
     const { sub: user_id } = verify(token, process.env.JWT_SECRET);
 
     request.user = {
-      id: user_id as string
+      id: String(user_id)
     };
 
     next();
   } catch (error) {
+    console.log('ERROR', error);
     throw new AppError('Invalid token', 401);
   }
 }
